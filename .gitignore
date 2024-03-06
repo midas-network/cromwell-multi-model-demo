@@ -1,0 +1,13 @@
+__pycache__*
+cromwell-executions/
+cromwell-workflow-logs/
+results/*.pdf
+results/*.png
+results/*.txt
+results/*.npz
+
+.DS_Store
+cromwell-84.jar
+test*.sh
+change_java.sh
+
