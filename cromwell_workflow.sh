@@ -115,7 +115,8 @@ else
 fi
 
 echo "Running Cromwell workflow ..."
-java -Dconfig.file=cromwell_config.conf -jar cromwell-84.jar run idmWorkflow.wdl
+# java -Dconfig.file=cromwell_config.conf -jar cromwell-84.jar run idmWorkflow.wdl
+java -jar cromwell-84.jar run idmWorkflow.wdl
 
 echo ""
 echo "******************************************************************************"
