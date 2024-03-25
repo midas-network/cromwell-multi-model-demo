@@ -4,12 +4,39 @@ import "epispot.wdl" as epispot
 import "bayesian.wdl" as bayesian
 import "seir.wdl" as seir
 
-task testResults {
+task moveResults {
     input {
-        File results
+        File move_results_script
+        File epispot_results_txt
+        File epispot_results_png
+        File bayesian_results_samples
+        File bayesian_results_summary
+        File bayesian_results_vis_r0
+        File bayesian_results_vis_scale_lin_daily_False_T_28
+        File bayesian_results_vis_scale_lin_daily_False_T_56
+        File bayesian_results_vis_scale_lin_daily_True_T_28
+        File bayesian_results_vis_scale_lin_daily_True_T_56
+        File bayesian_results_vis_scale_log_daily_False_T_28
+        File bayesian_results_vis_scale_log_daily_False_T_56
+        File bayesian_results_vis_scale_log_daily_True_T_28
+        File bayesian_results_vis_scale_log_daily_True_T_56
+        File seir_results
     }
     command {
-        more ${results}
+        ${move_results_script} "${epispot_results_txt}"
+        ${move_results_script} "${epispot_results_png}"
+        ${move_results_script} "${bayesian_results_samples}" "samples"
+        ${move_results_script} "${bayesian_results_summary}" "summary"
+        ${move_results_script} "${bayesian_results_vis_r0}" "vis"
+        ${move_results_script} "${bayesian_results_vis_scale_lin_daily_False_T_28}" "vis"
+        ${move_results_script} "${bayesian_results_vis_scale_lin_daily_False_T_56}" "vis"
+        ${move_results_script} "${bayesian_results_vis_scale_lin_daily_True_T_28}" "vis"
+        ${move_results_script} "${bayesian_results_vis_scale_lin_daily_True_T_56}" "vis"
+        ${move_results_script} "${bayesian_results_vis_scale_log_daily_False_T_28}" "vis"
+        ${move_results_script} "${bayesian_results_vis_scale_log_daily_False_T_56}" "vis"
+        ${move_results_script} "${bayesian_results_vis_scale_log_daily_True_T_28}" "vis"
+        ${move_results_script} "${bayesian_results_vis_scale_log_daily_True_T_56}" "vis"
+        ${move_results_script} "${seir_results}"
     }
     output {
         String out = read_string(stdout())
@@ -25,18 +52,46 @@ workflow idmWorkflow {
     call seir.seirWorkflow {}
 
     output {
-        File epispot_response = epispotWorkflow.response
-        File epispot_results = epispotWorkflow.results
-        File bayesian_response = bayesianWorkflow.response
-        File bayesian_results = bayesianWorkflow.results
-        File seir_response = seirWorkflow.response
+#        File epispot_response = epispotWorkflow.response
+        File epispot_results_txt = epispotWorkflow.results_txt
+        File epispot_results_png = epispotWorkflow.results_png
+#        File bayesian_response = bayesianWorkflow.response
+        File bayesian_results_samples = bayesianWorkflow.bayesian_results_samples
+        File bayesian_results_summary = bayesianWorkflow.bayesian_results_summary
+        File bayesian_results_vis_r0 = bayesianWorkflow.bayesian_results_vis_r0
+        File bayesian_results_vis_scale_lin_daily_False_T_28 = bayesianWorkflow.bayesian_results_vis_scale_lin_daily_False_T_28
+        File bayesian_results_vis_scale_lin_daily_False_T_56 = bayesianWorkflow.bayesian_results_vis_scale_lin_daily_False_T_56
+        File bayesian_results_vis_scale_lin_daily_True_T_28 = bayesianWorkflow.bayesian_results_vis_scale_lin_daily_True_T_28
+        File bayesian_results_vis_scale_lin_daily_True_T_56 = bayesianWorkflow.bayesian_results_vis_scale_lin_daily_True_T_56
+        File bayesian_results_vis_scale_log_daily_False_T_28 = bayesianWorkflow.bayesian_results_vis_scale_log_daily_False_T_28
+        File bayesian_results_vis_scale_log_daily_False_T_56 = bayesianWorkflow.bayesian_results_vis_scale_log_daily_False_T_56
+        File bayesian_results_vis_scale_log_daily_True_T_28 = bayesianWorkflow.bayesian_results_vis_scale_log_daily_True_T_28
+        File bayesian_results_vis_scale_log_daily_True_T_56 = bayesianWorkflow.bayesian_results_vis_scale_log_daily_True_T_56
+#        File seir_response = seirWorkflow.response
         File seir_results = seirWorkflow.results
 
     }
 
-    call testResults {
+    call moveResults {
         input: 
-            results = epispot_results
+            move_results_script = "./scripts/sh/move_results.sh",
+#            epispot_response = epispot_response,
+            epispot_results_txt = epispot_results_txt,
+            epispot_results_png = epispot_results_png,
+#            bayesian_response = bayesian_response,
+            bayesian_results_samples = bayesian_results_samples,
+            bayesian_results_summary = bayesian_results_summary,
+            bayesian_results_vis_r0 = bayesian_results_vis_r0,
+            bayesian_results_vis_scale_lin_daily_False_T_28 = bayesian_results_vis_scale_lin_daily_False_T_28,
+            bayesian_results_vis_scale_lin_daily_False_T_56 = bayesian_results_vis_scale_lin_daily_False_T_56,
+            bayesian_results_vis_scale_lin_daily_True_T_28 = bayesian_results_vis_scale_lin_daily_True_T_28,
+            bayesian_results_vis_scale_lin_daily_True_T_56 = bayesian_results_vis_scale_lin_daily_True_T_56,
+            bayesian_results_vis_scale_log_daily_False_T_28 = bayesian_results_vis_scale_log_daily_False_T_28,
+            bayesian_results_vis_scale_log_daily_False_T_56 = bayesian_results_vis_scale_log_daily_False_T_56,
+            bayesian_results_vis_scale_log_daily_True_T_28 = bayesian_results_vis_scale_log_daily_True_T_28,
+            bayesian_results_vis_scale_log_daily_True_T_56 = bayesian_results_vis_scale_log_daily_True_T_56,
+#            seir_response = seir_response,
+            seir_results = seir_results
     }
 
 }
