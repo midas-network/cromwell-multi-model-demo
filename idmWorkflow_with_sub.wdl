@@ -1,5 +1,6 @@
 version 1.0
 
+import "model_inputs.wdl" as modelInputs
 import "epispot.wdl" as epispot
 import "bayesian.wdl" as bayesian
 import "seir.wdl" as seir
@@ -47,8 +48,15 @@ task moveResults {
 # A sub-workflows is executed exactly as a task would be. This means that if another call depends on an output of a sub-workflow, this call will run when the whole sub-workflow completes (successfully).
 
 workflow idmWorkflow {
-    call epispot.epispotWorkflow {}
-    call bayesian.bayesianWorkflow {}
+    call modelInputs.modelInputsWorkflow {}
+    call epispot.epispotWorkflow {
+        input:
+            parameters = modelInputsWorkflow.epispot
+    }
+    call bayesian.bayesianWorkflow {
+        input:
+            bayesian_parameters = modelInputsWorkflow.bayesian
+    }
     call seir.seirWorkflow {}
 
     output {

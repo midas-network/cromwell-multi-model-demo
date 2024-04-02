@@ -15,6 +15,8 @@ git_repository_name
 
 git clone "$git_repository_url"
 
+mkdir -p results
+
 cd $(git_repository_name)
 python setup.py install
 
