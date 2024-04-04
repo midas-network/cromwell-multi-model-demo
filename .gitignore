@@ -1,13 +1,22 @@
 __pycache__*
-cromwell-executions/
-cromwell-workflow-logs/
 results/*.pdf
 results/*.png
 results/*.txt
 results/*.npz
+results/samples/
+results/summary/
+results/vis/
 
-.DS_Store
-cromwell-84.jar
-test*.sh
+test*.*
 change_java.sh
+hello_world*.*
+.DS_Store
+
+cromwell-executions/
+cromwell-workflow-logs/
+cromwell-84.jar
+cromwell-86.jar
+womtool-84.jar
+womtool-86.jar
+
 

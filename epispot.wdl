@@ -9,9 +9,9 @@ task run_epispot {
         File run_model_script
         File run_model_executable
         String git_repository_url
-        String start
-        String stop
-        String num_samples
+        Int start
+        Int stop
+        Int num_samples
         String pop_size
     }
     command {
@@ -32,6 +32,10 @@ task run_epispot {
 }
 
 workflow epispotWorkflow {
+    input {
+        Map[String, String] parameters
+    }
+
     call run_epispot {
         input:
             setup_os_script = "./scripts/sh/setup_os.sh",
@@ -41,10 +45,10 @@ workflow epispotWorkflow {
             run_model_script = "./scripts/sh/epispot/run_model.sh",
             run_model_executable = "./scripts/python/epispot_run.py",
             git_repository_url = "https://github.com/epispot/epispot",
-            start = 0,
-            stop = 50,
-            num_samples = 200,
-            pop_size = "1.78e6"
+            start = parameters["start"],
+            stop = parameters["stop"],
+            num_samples = parameters["num_samples"],
+            pop_size = parameters["pop_size"]
     }
 
     output {
