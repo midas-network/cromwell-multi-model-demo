@@ -1,5 +1,10 @@
 version 1.0
 
+struct ModelInputs {
+    String model
+    Map[String, String] parameters
+}
+
 task run_epispot {
     input {
         File setup_os_script
@@ -9,9 +14,9 @@ task run_epispot {
         File run_model_script
         File run_model_executable
         String git_repository_url
-        String start
-        String stop
-        String num_samples
+        Int start
+        Int stop
+        Int num_samples
         String pop_size
     }
     command {
@@ -129,6 +134,24 @@ task moveResults {
 }
 
 workflow idmWorkflow {
+    input {
+        File jsonFile = "model_input_parameters.json"
+    }
+
+    Array[ModelInputs] modelInputs = read_json(jsonFile)
+    scatter (modelInput in modelInputs){
+        String modelName = modelInput.model
+        if (modelName=="epispot") {
+            Map[String, String] epispotMap = modelInput.parameters 
+        }
+        if (modelName=="bayesian") {
+            Map[String, String] bayesianMap = modelInput.parameters 
+        }
+    }
+
+    Map[String, String] epispot = select_first(epispotMap)
+    Map[String, String] bayesian = select_first(bayesianMap)
+
     call run_epispot {
         input:
             setup_os_script = "./scripts/sh/setup_os.sh",
@@ -138,10 +161,10 @@ workflow idmWorkflow {
             run_model_script = "./scripts/sh/epispot/run_model.sh",
             run_model_executable = "./scripts/python/epispot_run.py",
             git_repository_url = "https://github.com/epispot/epispot",
-            start = 0,
-            stop = 50,
-            num_samples = 200,
-            pop_size = "1.78e6"
+            start = epispot["start"],
+            stop = epispot["stop"],
+            num_samples = epispot["num_samples"],
+            pop_size = epispot["pop_size"]
     }
 
     call run_bayesian {
@@ -152,9 +175,9 @@ workflow idmWorkflow {
             install_model_script = "./scripts/sh/bayesian/install_model.sh",
             run_model_script = "./scripts/sh/bayesian/run_model.sh",
             git_repository_url = "https://github.com/midas-network/bayesian-covid-model-demo.git",
-            state = "GA",
-            start_date = "2020-03-05",
-            end_date = "2020-03-07"
+            state = bayesian["state"],
+            start_date = bayesian["start_date"],
+            end_date = bayesian["end_date"]
     }
 
     call run_seir {
