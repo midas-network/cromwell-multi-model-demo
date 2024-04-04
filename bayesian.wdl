@@ -39,6 +39,9 @@ task run_bayesian {
 }
 
 workflow bayesianWorkflow {
+    input {
+        Map[String, String] bayesian_parameters
+    }
     call run_bayesian {
         input:
             setup_os_script = "./scripts/sh/setup_os.sh",
@@ -47,9 +50,9 @@ workflow bayesianWorkflow {
             install_model_script = "./scripts/sh/bayesian/install_model.sh",
             run_model_script = "./scripts/sh/bayesian/run_model.sh",
             git_repository_url = "https://github.com/midas-network/bayesian-covid-model-demo.git",
-            state = "GA",
-            start_date = "2020-03-05",
-            end_date = "2020-03-07"
+            state = bayesian_parameters["state"],
+            start_date = bayesian_parameters["start_date"],
+            end_date = bayesian_parameters["end_date"]
     }
 
     output {

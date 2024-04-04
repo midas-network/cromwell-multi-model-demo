@@ -1,0 +1,24 @@
+[
+    {
+        "model" : "epispot",
+        "parameters": {
+            "start": 0,
+            "stop": 50,
+            "num_samples": 200,
+            "pop_size": "1.78e6"
+        }
+    },
+    {
+        "model" : "bayesian",
+        "parameters": {
+            "state": "GA",
+            "start_date": "2020-03-05",
+            "end_date": "2020-03-07"
+        }
+    },
+    {
+        "model" : "seir",
+        "parameters": {
+        }
+    }
+]
