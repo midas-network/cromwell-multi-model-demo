@@ -3,58 +3,73 @@ version 1.0
 task run_epispot {
     input {
         File setup_os_script
-        File install_git_script
-        File install_python_script
+        File clone_repository_script
+        File copy_cromwell_logs_script
+        File copy_model_output_script
+        String model_git_repository
         File install_model_script
+        String name_of_this_model_run
         File run_model_script
-        File run_model_executable
-        String git_repository_url
+        File model_executable
         Int start
         Int stop
         Int num_samples
         String pop_size
+        String model_output_folder
+        String model_output_file_types
+        String model_runtime_docker
     }
+
+    String model_output_file_listing = "${name_of_this_model_run}_output_files.txt"
+
     command {
         ${setup_os_script}
-        ${install_git_script}
-        ${install_python_script}
-        ${install_model_script} "${git_repository_url}"
-        ${run_model_script} "${run_model_executable}" "${git_repository_url}" "${start}" "${stop}" "${num_samples}" "${pop_size}"
+        ${clone_repository_script} "${model_git_repository}"
+        ${install_model_script} "${model_git_repository}"
+        ${run_model_script} "${model_executable}" "${model_git_repository}" "${start}" "${stop}" "${num_samples}" "${pop_size}"
+        python3 ${copy_model_output_script} "${model_output_folder}" "${model_output_file_types}" "${model_output_file_listing}" "${name_of_this_model_run}"
+        ${copy_cromwell_logs_script} "${model_output_folder}" "${name_of_this_model_run}"
     }
     runtime {
-        docker: "python:3.9.18-slim-bullseye"
+        docker: "${model_runtime_docker}"
     }
     output {
-#        File response = stdout()
-        File epispot_results_txt = "results/comp_pop_over_time-${start}-${stop}-${num_samples}-${pop_size}.txt"
-        File epispot_results_png = "results/comp_pop_over_time-${start}-${stop}-${num_samples}-${pop_size}.png"
+        Array[File] output_files = read_lines(model_output_file_listing)
     }
 }
 
 workflow epispotWorkflow {
     input {
-        Map[String, String] parameters
+        File setup_os_script
+        File clone_repository_script
+        File copy_cromwell_logs_script
+        File copy_model_output_script
+        String model_git_repository
+        File install_model_script
+        File run_model_script
+        File model_executable
+        String model_output_folder
+        String model_output_file_types
+        String model_runtime_docker
     }
 
     call run_epispot {
         input:
-            setup_os_script = "./scripts/sh/setup_os.sh",
-            install_git_script = "./scripts/sh/install_git.sh",
-            install_python_script = "./scripts/sh/epispot/install_python_libraries.sh",
-            install_model_script = "./scripts/sh/epispot/install_model.sh",
-            run_model_script = "./scripts/sh/epispot/run_model.sh",
-            run_model_executable = "./scripts/python/epispot_run.py",
-            git_repository_url = "https://github.com/epispot/epispot",
-            start = parameters["start"],
-            stop = parameters["stop"],
-            num_samples = parameters["num_samples"],
-            pop_size = parameters["pop_size"]
+            setup_os_script = setup_os_script,
+            clone_repository_script = clone_repository_script,
+            copy_cromwell_logs_script = copy_cromwell_logs_script,
+            copy_model_output_script = copy_model_output_script,
+            model_git_repository = model_git_repository,
+            install_model_script = install_model_script,
+            run_model_script = run_model_script,
+            model_executable = model_executable,
+            model_output_folder = model_output_folder,
+            model_output_file_types = model_output_file_types,
+            model_runtime_docker = model_runtime_docker
     }
 
     output {
-#        File response = run_epispot.response
-        File results_txt = run_epispot.epispot_results_txt
-        File results_png = run_epispot.epispot_results_png
+        Array[File] epispot_output_files = run_epispot.output_files
     }
 }
 

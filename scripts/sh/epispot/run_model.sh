@@ -24,4 +24,5 @@ echo "${epispot_python}"
 # cp /midas-epispot/epispot_run.py . 
 cp "${epispot_python}" . 
 python epispot_run.py ${start} ${stop} ${num_samples} "${pop_size}"
+#python "${epispot_python}" ${start} ${stop} ${num_samples} "${pop_size}"
 

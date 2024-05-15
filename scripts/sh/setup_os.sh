@@ -8,5 +8,3 @@ ln -sf /usr/share/zoneinfo/GMT /etc/localtime
 
 apt-get -y install git
 apt-get -y install jq
-
-# mkdir -p results
