@@ -114,16 +114,25 @@ else
   exit 1
 fi
 
+echo "Verifying model definition file provided as modelWorkflow_inputs.json..."
+if [[ -f modelWorkflow_inputs.json ]]; then
+  echo "  modelWorkflow_inputs.json found."
+else
+  echo "  modelWorkflow_inputs.json not found..."
+  echo "    Please specify the model configuation yml and "
+  echo "    the model executable in the modelWorkflow_inputs.json file."
+  exit 1
+fi
+
 echo "Running Cromwell workflow ..."
-# java -Dconfig.file=cromwell_config.conf -jar cromwell-86.jar run idmWorkflow.wdl
-java -jar cromwell-86.jar run idmWorkflow.wdl
+java -Dconfig.file=cromwell_config.conf -jar cromwell-86.jar run modelWorkflow.wdl --inputs modelWorkflow_inputs.json
 
 echo ""
 echo "******************************************************************************"
 echo "*       MIDAS Cromwell / Multi-model Demo                                    *"
 echo "*                                                                            *"
 echo "* Cromwell workflow has completed.  Results can be found at:                 *"
-echo "$(pwd)/results"
+echo "$(pwd)/model_output"
 echo "*                                                                            *"
 echo "******************************************************************************"
 echo ""

@@ -1,0 +1,83 @@
+debconf: delaying package configuration, since apt-utils is not installed
+debconf: delaying package configuration, since apt-utils is not installed
+debconf: delaying package configuration, since apt-utils is not installed
+Cloning into 'epispot'...
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+
+[notice] A new release of pip is available: 23.0.1 -> 24.0
+[notice] To update, run: pip install --upgrade pip
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+
+[notice] A new release of pip is available: 23.0.1 -> 24.0
+[notice] To update, run: pip install --upgrade pip
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+
+[notice] A new release of pip is available: 23.0.1 -> 24.0
+[notice] To update, run: pip install --upgrade pip
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+
+[notice] A new release of pip is available: 23.0.1 -> 24.0
+[notice] To update, run: pip install --upgrade pip
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+
+[notice] A new release of pip is available: 23.0.1 -> 24.0
+[notice] To update, run: pip install --upgrade pip
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+
+[notice] A new release of pip is available: 23.0.1 -> 24.0
+[notice] To update, run: pip install --upgrade pip
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+
+[notice] A new release of pip is available: 23.0.1 -> 24.0
+[notice] To update, run: pip install --upgrade pip
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+
+[notice] A new release of pip is available: 23.0.1 -> 24.0
+[notice] To update, run: pip install --upgrade pip
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+
+[notice] A new release of pip is available: 23.0.1 -> 24.0
+[notice] To update, run: pip install --upgrade pip
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+
+[notice] A new release of pip is available: 23.0.1 -> 24.0
+[notice] To update, run: pip install --upgrade pip
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+
+[notice] A new release of pip is available: 23.0.1 -> 24.0
+[notice] To update, run: pip install --upgrade pip
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+
+[notice] A new release of pip is available: 23.0.1 -> 24.0
+[notice] To update, run: pip install --upgrade pip
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+
+[notice] A new release of pip is available: 23.0.1 -> 24.0
+[notice] To update, run: pip install --upgrade pip
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+
+[notice] A new release of pip is available: 23.0.1 -> 24.0
+[notice] To update, run: pip install --upgrade pip
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+
+[notice] A new release of pip is available: 23.0.1 -> 24.0
+[notice] To update, run: pip install --upgrade pip
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+
+[notice] A new release of pip is available: 23.0.1 -> 24.0
+[notice] To update, run: pip install --upgrade pip
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+
+[notice] A new release of pip is available: 23.0.1 -> 24.0
+[notice] To update, run: pip install --upgrade pip
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+
+[notice] A new release of pip is available: 23.0.1 -> 24.0
+[notice] To update, run: pip install --upgrade pip
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+
+[notice] A new release of pip is available: 23.0.1 -> 24.0
+[notice] To update, run: pip install --upgrade pip
+/usr/local/lib/python3.9/site-packages/setuptools/dist.py:487: UserWarning: Normalizing '3.0.0-rc-1' to '3.0.0rc1'
+  warnings.warn(tmpl.format(**locals()))
+zip_safe flag not set; analyzing archive contents...

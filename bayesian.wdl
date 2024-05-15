@@ -3,71 +3,69 @@ version 1.0
 task run_bayesian {
     input {
         File setup_os_script
-        File install_git_script
-        File install_python_script
+        File clone_repository_script
+        File copy_cromwell_logs_script
+        File copy_model_output_script
+        String model_git_repository
         File install_model_script
+        String name_of_this_model_run
         File run_model_script
-        String git_repository_url
         String state
         String start_date
         String end_date
+        String model_output_folder
+        String model_output_file_types
+        String model_runtime_docker
     }
+
+    String model_output_file_listing = "${name_of_this_model_run}_output_files.txt"
+
     command {
         ${setup_os_script}
-        ${install_git_script}
-        ${install_python_script}
-        ${install_model_script} "${git_repository_url}"
-        ${run_model_script} "${git_repository_url}" "${state}" "${start_date}" "${end_date}"
+        ${clone_repository_script} "${model_git_repository}"
+        ${install_model_script} "${model_git_repository}"
+        ${run_model_script} "${model_git_repository}" "${state}" "${start_date}" "${end_date}"
+        python3 ${copy_model_output_script} "${model_output_folder}" "${model_output_file_types}" "${model_output_file_listing}" "${name_of_this_model_run}"
+        ${copy_cromwell_logs_script} "${model_output_folder}" "${name_of_this_model_run}"
     }
     runtime {
-        docker: "python:3.6.15-bullseye"
+        docker: "${model_runtime_docker}"
     }
     output {
-#        File response = stdout()
-        File results_samples = "bayesian-covid-model-demo/scripts/results/samples/${state}.npz"
-        File results_summary = "bayesian-covid-model-demo/scripts/results/summary/${state}.txt"
-        File results_vis_r0 = "bayesian-covid-model-demo/scripts/results/vis/${state}_R0.png"
-        File results_vis_scale_lin_daily_False_T_28 = "bayesian-covid-model-demo/scripts/results/vis/${state}_scale_lin_daily_False_T_28.png"
-        File results_vis_scale_lin_daily_False_T_56 = "bayesian-covid-model-demo/scripts/results/vis/${state}_scale_lin_daily_False_T_56.png"
-        File results_vis_scale_lin_daily_True_T_28 = "bayesian-covid-model-demo/scripts/results/vis/${state}_scale_lin_daily_True_T_28.png"
-        File results_vis_scale_lin_daily_True_T_56 = "bayesian-covid-model-demo/scripts/results/vis/${state}_scale_lin_daily_True_T_56.png"
-        File results_vis_scale_log_daily_False_T_28 = "bayesian-covid-model-demo/scripts/results/vis/${state}_scale_log_daily_False_T_28.png"
-        File results_vis_scale_log_daily_False_T_56 = "bayesian-covid-model-demo/scripts/results/vis/${state}_scale_log_daily_False_T_56.png"
-        File results_vis_scale_log_daily_True_T_28 = "bayesian-covid-model-demo/scripts/results/vis/${state}_scale_log_daily_True_T_28.png"
-        File results_vis_scale_log_daily_True_T_56 = "bayesian-covid-model-demo/scripts/results/vis/${state}_scale_log_daily_True_T_56.png"
+        Array[File] output_files = read_lines(model_output_file_listing)
     }
 }
 
 workflow bayesianWorkflow {
     input {
-        Map[String, String] bayesian_parameters
+        File setup_os_script
+        File clone_repository_script
+        File copy_cromwell_logs_script
+        File copy_model_output_script
+        String model_git_repository
+        File install_model_script
+        File run_model_script
+        String model_output_folder
+        String model_output_file_types
+        String model_runtime_docker
     }
+
     call run_bayesian {
         input:
-            setup_os_script = "./scripts/sh/setup_os.sh",
-            install_git_script = "./scripts/sh/install_git.sh",
-            install_python_script = "./scripts/sh/bayesian/install_python_libraries.sh",
-            install_model_script = "./scripts/sh/bayesian/install_model.sh",
-            run_model_script = "./scripts/sh/bayesian/run_model.sh",
-            git_repository_url = "https://github.com/midas-network/bayesian-covid-model-demo.git",
-            state = bayesian_parameters["state"],
-            start_date = bayesian_parameters["start_date"],
-            end_date = bayesian_parameters["end_date"]
+            setup_os_script = setup_os_script,
+            clone_repository_script = clone_repository_script,
+            copy_cromwell_logs_script = copy_cromwell_logs_script,
+            copy_model_output_script = copy_model_output_script,
+            model_git_repository = model_git_repository,
+            install_model_script = install_model_script,
+            run_model_script = run_model_script,
+            model_output_folder = model_output_folder,
+            model_output_file_types = model_output_file_types,
+            model_runtime_docker = model_runtime_docker
     }
 
     output {
-#        File response = run_bayesian.response
-        File bayesian_results_samples = run_bayesian.results_samples
-        File bayesian_results_summary = run_bayesian.results_summary
-        File bayesian_results_vis_r0 = run_bayesian.results_vis_r0
-        File bayesian_results_vis_scale_lin_daily_False_T_28 = run_bayesian.results_vis_scale_lin_daily_False_T_28
-        File bayesian_results_vis_scale_lin_daily_False_T_56 = run_bayesian.results_vis_scale_lin_daily_False_T_56
-        File bayesian_results_vis_scale_lin_daily_True_T_28 = run_bayesian.results_vis_scale_lin_daily_True_T_28
-        File bayesian_results_vis_scale_lin_daily_True_T_56 = run_bayesian.results_vis_scale_lin_daily_True_T_56
-        File bayesian_results_vis_scale_log_daily_False_T_28 = run_bayesian.results_vis_scale_log_daily_False_T_28
-        File bayesian_results_vis_scale_log_daily_False_T_56 = run_bayesian.results_vis_scale_log_daily_False_T_56
-        File bayesian_results_vis_scale_log_daily_True_T_28 = run_bayesian.results_vis_scale_log_daily_True_T_28
-        File bayesian_results_vis_scale_log_daily_True_T_56 = run_bayesian.results_vis_scale_log_daily_True_T_56
+        Array[File] bayesian_output_files = run_bayesian.output_files
     }
 }
 

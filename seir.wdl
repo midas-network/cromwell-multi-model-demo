@@ -3,34 +3,59 @@ version 1.0
 task run_seir {
     input {
         File setup_os_script
-        File install_SEIR_script
-        File SEIR_script
+        File copy_cromwell_logs_script
+        File copy_model_output_script
+        File install_model_script
+        String name_of_this_model_run
+        File run_model_script
+        String model_output_folder
+        String model_output_file_types
+        String model_runtime_docker
     }
+
+    String model_output_file_listing = "${name_of_this_model_run}_output_files.txt"
+
     command {
         ${setup_os_script}
-        ${install_SEIR_script}
-        R --slave --no-save --no-restore --no-site-file --no-environ -f ${SEIR_script} --args ""
+        ${install_model_script}
+        R --slave --no-save --no-restore --no-site-file --no-environ -f ${run_model_script} --args ""
+        python3 ${copy_model_output_script} "${model_output_folder}" "${model_output_file_types}" "${model_output_file_listing}" "${name_of_this_model_run}"
+        ${copy_cromwell_logs_script} "${model_output_folder}" "${name_of_this_model_run}"
     }
     runtime {
-        docker: "npanicker/r-desolve:1.1"
+        docker: "${model_runtime_docker}"
     }
     output {
-#        File response = stdout()
-        File seir_results = "Rplots.pdf"
+        Array[File] output_files = read_lines(model_output_file_listing)
     }
 }
 
 workflow seirWorkflow {
+    input {
+        File setup_os_script
+        File copy_cromwell_logs_script
+        File copy_model_output_script
+        File install_model_script
+        File run_model_script
+        String model_output_folder
+        String model_output_file_types
+        String model_runtime_docker
+    }
+
     call run_seir {
         input:
-            setup_os_script = "./scripts/sh/setup_os.sh",
-            install_SEIR_script = "./scripts/sh/seir/install_SEIR.sh",
-            SEIR_script = "./scripts/R/seir/SEIR.R",
+            setup_os_script = setup_os_script,
+            copy_cromwell_logs_script = copy_cromwell_logs_script,
+            copy_model_output_script = copy_model_output_script,
+            install_model_script = install_model_script,
+            run_model_script = run_model_script,
+            model_output_folder = model_output_folder,
+            model_output_file_types = model_output_file_types,
+            model_runtime_docker = model_runtime_docker
     }
 
     output {
-#        File response = run_seir.response
-        File results = run_seir.seir_results
+        Array[File] seir_output_files = run_seir.output_files
     }
 }
 
