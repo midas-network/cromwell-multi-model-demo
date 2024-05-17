@@ -26,33 +26,54 @@ Please note: The cromwell workflow script will check for these requirements and 
 
 ### Input parameters:
  
- Edit model_input_parameters.json file to specify the run parameters for each model.  (Please note: the seir model has no parameters to specify.)
+ Edit **modelWorkflow_inputs.json** file to specify the run parameters for each model.  
+ First specify the name of the run for each model (do not include spaces).
+ For Epispot, provide the start, stop, num_samples and pop_size.
+ For Bayesian, provide state, start_date and end_date.
+ For SEIR, only the name of the model run is necessary.
+ All other input parameters specify the model particulars, such as git repository, output folder of the model, types of output produced, installation and  run scripts.
+
+ Alternatively, to execute a Cromwell example which includes sub workflows, please edit **modelWorkflow_inputs_with_sub.json**.
 
 ~~~
-[
-    {
-        "model" : "epispot",
-        "parameters": {
-            "start": 0,
-            "stop": 50,
-            "num_samples": 200,
-            "pop_size": "1.78e6"
-        }
-    },
-    {
-        "model" : "bayesian",
-        "parameters": {
-            "state": "GA",
-            "start_date": "2020-03-05",
-            "end_date": "2020-03-07"
-        }
-    },
-    {
-        "model" : "seir",
-        "parameters": {
-        }
-    }
-]
+{
+  "modelWorkflow.run_epispot.name_of_this_model_run": "epispot",
+  "modelWorkflow.run_epispot.start": 0,
+  "modelWorkflow.run_epispot.stop": 50,
+  "modelWorkflow.run_epispot.num_samples": 200,
+  "modelWorkflow.run_epispot.pop_size": "1.78e6",
+  "modelWorkflow.run_epispot.model_executable": "./scripts/python/epispot_run.py",
+  "modelWorkflow.run_epispot.model_git_repository": "https://github.com/epispot/epispot",
+  "modelWorkflow.run_epispot.model_output_folder": "results",
+  "modelWorkflow.run_epispot.model_output_file_types": "[png,txt]",
+  "modelWorkflow.run_epispot.install_model_script": "./scripts/sh/epispot/install_model.sh",
+  "modelWorkflow.run_epispot.run_model_script": "./scripts/sh/epispot/run_model.sh",
+  "modelWorkflow.run_epispot.model_runtime_docker": "python:3.9.18-slim-bullseye",
+
+  "modelWorkflow.run_bayesian.name_of_this_model_run": "bayesian",
+  "modelWorkflow.run_bayesian.state": "GA",
+  "modelWorkflow.run_bayesian.start_date": "2020-03-05",
+  "modelWorkflow.run_bayesian.end_date": "2020-03-07",
+  "modelWorkflow.run_bayesian.model_git_repository": "https://github.com/midas-network/bayesian-covid-model-demo.git",
+  "modelWorkflow.run_bayesian.model_output_folder": "bayesian-covid-model-demo/scripts/results",
+  "modelWorkflow.run_bayesian.model_output_file_types": "[npz,txt,png]",
+  "modelWorkflow.run_bayesian.install_model_script": "./scripts/sh/bayesian/install_model.sh",
+  "modelWorkflow.run_bayesian.run_model_script": "./scripts/sh/bayesian/run_model.sh",
+  "modelWorkflow.run_bayesian.model_runtime_docker": "python:3.6.15-bullseye",
+
+  "modelWorkflow.run_seir.name_of_this_model_run": "seir",
+  "modelWorkflow.run_seir.model_output_folder": "./",
+  "modelWorkflow.run_seir.model_output_file_types": "[pdf]",
+  "modelWorkflow.run_seir.setup_os_script": "./scripts/sh/seir/setup_os.sh",
+  "modelWorkflow.run_seir.install_model_script": "./scripts/sh/seir/install_model.sh",
+  "modelWorkflow.run_seir.run_model_script": "./scripts/R/seir/SEIR.R",
+  "modelWorkflow.run_seir.model_runtime_docker": "rocker/verse:latest",
+
+  "modelWorkflow.setup_os_script": "./scripts/sh/setup_os.sh",
+  "modelWorkflow.clone_repository_script": "./scripts/sh/clone_git_repository.sh",
+  "modelWorkflow.copy_cromwell_logs_script": "./scripts/sh/copy_cromwell_logs.sh",
+  "modelWorkflow.copy_model_output_script": "scripts/python/copy_model_output.py"
+}
 ~~~
 
 ### To execute:
@@ -68,7 +89,7 @@ Please note: The cromwell workflow script will check for these requirements and 
 
 ### Results:
 
-Results will be inside the results folder of this project:
+Results will be inside the model_output folder of this project:
 ~~~
-~/../cromwell-multi-model-demo/results
+~/../cromwell-multi-model-demo/model_ouput
 ~~~
