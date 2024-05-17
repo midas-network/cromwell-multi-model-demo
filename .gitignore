@@ -1,13 +1,7 @@
 __pycache__*
-results/*.pdf
-results/*.png
-results/*.txt
-results/*.npz
-results/samples/
-results/summary/
-results/vis/
+model_output/*
 
-test*.*
+*.*
 change_java.sh
 hello_world*.*
 .DS_Store

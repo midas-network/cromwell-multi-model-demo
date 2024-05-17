@@ -114,13 +114,13 @@ else
   exit 1
 fi
 
-echo "Verifying model definition file provided as modelWorkflow_with_sub.json..."
-if [[ -f modelWorkflow_with_sub.json ]]; then
-  echo "  modelWorkflow_with_sub.json found."
+echo "Verifying model definition file provided as modelWorkflow_inputs_with_sub.json..."
+if [[ -f modelWorkflow_inputs_with_sub.json ]]; then
+  echo "  modelWorkflow_inputs_with_sub.json found."
 else
-  echo "  modelWorkflow_with_sub.json not found..."
+  echo "  modelWorkflow_inputs_with_sub.json not found..."
   echo "    Please specify the model configuation yml and "
-  echo "    the model executable in the modelWorkflow_with_sub.json file."
+  echo "    the model executable in the modelWorkflow_inputs_with_sub.json file."
   exit 1
 fi
 

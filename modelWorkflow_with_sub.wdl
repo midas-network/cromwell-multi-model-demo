@@ -13,6 +13,40 @@ workflow modelWorkflow {
         File clone_repository_script
         File copy_cromwell_logs_script
         File copy_model_output_script
+
+        String epispot_name_of_this_model_run
+        Int epispot_start
+        Int epispot_stop
+        Int epispot_num_samples
+        String epispot_pop_size
+        String epispot_model_git_repository
+        File epispot_install_model_script
+        String epispot_name_of_this_model_run
+        File epispot_run_model_script
+        File epispot_model_executable
+        String epispot_model_output_folder
+        String epispot_model_output_file_types
+        String epispot_model_runtime_docker
+
+        String bayesian_name_of_this_model_run
+        String bayesian_state
+        String bayesian_start_date
+        String bayesian_end_date
+        String bayesian_model_git_repository
+        File bayesian_install_model_script
+        File bayesian_run_model_script
+        String bayesian_model_output_folder
+        String bayesian_model_output_file_types
+        String bayesian_model_runtime_docker
+
+        File seir_setup_os_script
+        String seir_name_of_this_model_run
+        File seir_install_model_script
+        File seir_run_model_script
+        String seir_model_output_folder
+        String seir_model_output_file_types
+        String seir_model_runtime_docker
+
     }
 
     call epispot.epispotWorkflow {
@@ -20,7 +54,19 @@ workflow modelWorkflow {
             setup_os_script = setup_os_script,
             clone_repository_script = clone_repository_script,
             copy_cromwell_logs_script = copy_cromwell_logs_script,
-            copy_model_output_script = copy_model_output_script
+            copy_model_output_script = copy_model_output_script,
+            name_of_this_model_run = epispot_name_of_this_model_run,
+            start = epispot_start,
+            stop = epispot_stop,
+            num_samples = epispot_num_samples,
+            pop_size = epispot_pop_size,
+            model_git_repository = epispot_model_git_repository,
+            install_model_script = epispot_install_model_script,
+            run_model_script = epispot_run_model_script,
+            model_executable = epispot_model_executable,
+            model_output_folder = epispot_model_output_folder,
+            model_output_file_types = epispot_model_output_file_types,
+            model_runtime_docker = epispot_model_runtime_docker
     }
 
     call bayesian.bayesianWorkflow {
@@ -28,13 +74,30 @@ workflow modelWorkflow {
             setup_os_script = setup_os_script,
             clone_repository_script = clone_repository_script,
             copy_cromwell_logs_script = copy_cromwell_logs_script,
-            copy_model_output_script = copy_model_output_script
+            copy_model_output_script = copy_model_output_script,
+            name_of_this_model_run = bayesian_name_of_this_model_run,
+            state = bayesian_state,
+            start_date = bayesian_start_date,
+            end_date = bayesian_end_date,
+            model_git_repository = bayesian_model_git_repository,
+            install_model_script = bayesian_install_model_script,
+            run_model_script = bayesian_run_model_script,
+            model_output_folder = bayesian_model_output_folder,
+            model_output_file_types = bayesian_model_output_file_types,
+            model_runtime_docker = bayesian_model_runtime_docker
     }
 
     call seir.seirWorkflow {
         input:
             copy_cromwell_logs_script = copy_cromwell_logs_script,
-            copy_model_output_script = copy_model_output_script    
+            copy_model_output_script = copy_model_output_script,
+            name_of_this_model_run = seir_name_of_this_model_run,
+            setup_os_script = seir_setup_os_script,
+            install_model_script = seir_install_model_script,
+            run_model_script = seir_run_model_script,
+            model_output_folder = seir_model_output_folder,
+            model_output_file_types = seir_model_output_file_types,
+            model_runtime_docker = seir_model_runtime_docker
     }
 
     output {
