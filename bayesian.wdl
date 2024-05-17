@@ -6,13 +6,13 @@ task run_bayesian {
         File clone_repository_script
         File copy_cromwell_logs_script
         File copy_model_output_script
-        String model_git_repository
-        File install_model_script
         String name_of_this_model_run
-        File run_model_script
         String state
         String start_date
         String end_date
+        String model_git_repository
+        File install_model_script
+        File run_model_script
         String model_output_folder
         String model_output_file_types
         String model_runtime_docker
@@ -42,6 +42,10 @@ workflow bayesianWorkflow {
         File clone_repository_script
         File copy_cromwell_logs_script
         File copy_model_output_script
+        String name_of_this_model_run
+        String state
+        String start_date
+        String end_date
         String model_git_repository
         File install_model_script
         File run_model_script
@@ -56,6 +60,10 @@ workflow bayesianWorkflow {
             clone_repository_script = clone_repository_script,
             copy_cromwell_logs_script = copy_cromwell_logs_script,
             copy_model_output_script = copy_model_output_script,
+            name_of_this_model_run = name_of_this_model_run,
+            state = state,
+            start_date = start_date,
+            end_date = end_date,
             model_git_repository = model_git_repository,
             install_model_script = install_model_script,
             run_model_script = run_model_script,

@@ -33,6 +33,7 @@ task run_seir {
 workflow seirWorkflow {
     input {
         File setup_os_script
+        String name_of_this_model_run
         File copy_cromwell_logs_script
         File copy_model_output_script
         File install_model_script
@@ -45,6 +46,7 @@ workflow seirWorkflow {
     call run_seir {
         input:
             setup_os_script = setup_os_script,
+            name_of_this_model_run = name_of_this_model_run,
             copy_cromwell_logs_script = copy_cromwell_logs_script,
             copy_model_output_script = copy_model_output_script,
             install_model_script = install_model_script,
