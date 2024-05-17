@@ -26,14 +26,15 @@ Please note: The cromwell workflow script will check for these requirements and 
 
 ### Input parameters:
  
- Edit **modelWorkflow_inputs.json** file to specify the run parameters for each model.  
- First specify the name of the run for each model (do not include spaces).
- For Epispot, provide the start, stop, num_samples and pop_size.
- For Bayesian, provide state, start_date and end_date.
- For SEIR, only the name of the model run is necessary.
- All other input parameters specify the model particulars, such as git repository, output folder of the model, types of output produced, installation and  run scripts.
+ Edit **modelWorkflow_inputs.json** file to specify the run parameters for each model.  Alternatively, to execute a Cromwell example which includes sub workflows, please edit **modelWorkflow_inputs_with_sub.json**.
 
- Alternatively, to execute a Cromwell example which includes sub workflows, please edit **modelWorkflow_inputs_with_sub.json**.
+ 
+ First specify the name of the run for each model (do not include spaces).\
+ For **Epispot**, provide the start, stop, num_samples and pop_size.\
+ For **Bayesian**, provide state, start_date and end_date.\
+ For **SEIR**, only the name of the model run is necessary.
+
+ All other input parameters specify the model particulars, such as git repository, output folder of the model, types of output produced, installation and  run scripts.
 
 ~~~
 {
