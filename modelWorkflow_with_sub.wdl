@@ -15,10 +15,10 @@ workflow modelWorkflow {
         File copy_model_output_script
 
         String epispot_name_of_this_model_run
-        Int epispot_start
-        Int epispot_stop
-        Int epispot_num_samples
-        String epispot_pop_size
+        Array[Int] epispot_start_array
+        Array[Int] epispot_stop_array
+        Array[Int] epispot_num_samples_array
+        Array[String] epispot_pop_size_array
         String epispot_model_git_repository
         File epispot_install_model_script
         String epispot_name_of_this_model_run
@@ -29,9 +29,9 @@ workflow modelWorkflow {
         String epispot_model_runtime_docker
 
         String bayesian_name_of_this_model_run
-        String bayesian_state
-        String bayesian_start_date
-        String bayesian_end_date
+        Array[String] bayesian_state_array
+        Array[String] bayesian_start_date_array
+        Array[String] bayesian_end_date_array
         String bayesian_model_git_repository
         File bayesian_install_model_script
         File bayesian_run_model_script
@@ -56,10 +56,10 @@ workflow modelWorkflow {
             copy_cromwell_logs_script = copy_cromwell_logs_script,
             copy_model_output_script = copy_model_output_script,
             name_of_this_model_run = epispot_name_of_this_model_run,
-            start = epispot_start,
-            stop = epispot_stop,
-            num_samples = epispot_num_samples,
-            pop_size = epispot_pop_size,
+            start_array = epispot_start_array,
+            stop_array = epispot_stop_array,
+            num_samples_array = epispot_num_samples_array,
+            pop_size_array = epispot_pop_size_array,
             model_git_repository = epispot_model_git_repository,
             install_model_script = epispot_install_model_script,
             run_model_script = epispot_run_model_script,
@@ -76,9 +76,9 @@ workflow modelWorkflow {
             copy_cromwell_logs_script = copy_cromwell_logs_script,
             copy_model_output_script = copy_model_output_script,
             name_of_this_model_run = bayesian_name_of_this_model_run,
-            state = bayesian_state,
-            start_date = bayesian_start_date,
-            end_date = bayesian_end_date,
+            state_array = bayesian_state_array,
+            start_date_array = bayesian_start_date_array,
+            end_date_array = bayesian_end_date_array,
             model_git_repository = bayesian_model_git_repository,
             install_model_script = bayesian_install_model_script,
             run_model_script = bayesian_run_model_script,
@@ -98,12 +98,6 @@ workflow modelWorkflow {
             model_output_folder = seir_model_output_folder,
             model_output_file_types = seir_model_output_file_types,
             model_runtime_docker = seir_model_runtime_docker
-    }
-
-    output {
-        Array[File] epispot_output_files = epispotWorkflow.epispot_output_files
-        Array[File] bayesian_output_files = bayesianWorkflow.bayesian_output_files
-        Array[File] seir_output_files = seirWorkflow.seir_output_files
     }
 }
 

@@ -1,14 +1,14 @@
 import os
 import sys
 
-target_topdir = "/midas"
-model_output_directory = sys.argv[1]
+target_topdir = "/midas" + sys.argv[1]
+model_output_directory = sys.argv[2]
 directory_to_walk = "./" + model_output_directory
-output_file_types = list(sys.argv[2].strip('[').strip(']').split(','))
+output_file_types = list(sys.argv[3].strip('[').strip(']').split(','))
 extensions = tuple(oft for oft in output_file_types)
 
-output_file_listing = open(sys.argv[3], "w")
-model_name = sys.argv[4]
+output_file_listing = open(sys.argv[4], "w")
+model_name = sys.argv[5]
 
 print(model_output_directory)
 print(output_file_types)

@@ -1,16 +1,17 @@
 #!/bin/bash
 
-model_output=$1
-model_name=$2
+mapped_volume=/midas$1
+model_output=$2
+model_name=$3
 
-if [[ ! -d /midas/model_output/"$model_name" ]]; 
+if [[ ! -d "$mapped_volume"/model_output/"$model_name" ]]; 
 then
-  mkdir /midas/model_output/"$model_name"
+  mkdir "$mapped_volume"/model_output/"$model_name"
 fi
 
 echo "Providing easy access to stderr and stdout..."
-cp -f stderr /midas/model_output/"$model_name"
-cp -f stdout /midas/model_output/"$model_name"
+cp -f stderr "$mapped_volume"/model_output/"$model_name"
+cp -f stdout "$mapped_volume"/model_output/"$model_name"
 
 echo "Verifying $model_output folder exists from sucessful run..."
 if [[ -d "$model_output" ]]; 
